@@ -88,6 +88,8 @@ fz_wx() {
 
 fz_app() {
   if [[ "${FZ_REGENERATE:-0}" == 1 || ! -f "$fz_repo/configure" ]]; then
+    # Git archives do not retain the empty architecture source directories.
+    mkdir -p "$fz_repo/src/fzshellext/32" "$fz_repo/src/fzshellext/64"
     (cd "$fz_repo" && autoreconf -i)
   fi
   # Only create wrappers in this build's own directory, not the MSYS2 install.
@@ -112,6 +114,13 @@ fz_app() {
     python "$fz_repo/scripts/normalize-buildinfo.py" \
       --config "$fz_build/build/filezilla/config/config.h" \
       --toolchain-root "$fz_native_toolchain"
+    # Catalog recipes read a build-local POT even when make finds an up-to-date
+    # source template through VPATH. Seed it without forcing Autotools refresh.
+    fz_source_pot="$fz_repo/locales/filezilla.pot"
+    fz_build_pot="$fz_build/build/filezilla/locales/filezilla.pot"
+    if [[ ! -f "$fz_build_pot" || "$fz_source_pot" -nt "$fz_build_pot" ]]; then
+      cp -p "$fz_source_pot" "$fz_build_pot"
+    fi
     make -j"$fz_jobs"
     make install
   )
