@@ -1,0 +1,77 @@
+name: Windows x64 manual build
+
+# Source publication never starts a build automatically. This workflow uploads
+# validation logs only; it does not create a GitHub Release or publish binaries.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      FZ_JOBS: '2'
+
+    steps:
+      - name: Check out source
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Set up MSYS2 UCRT64
+        # msys2/setup-msys2 v2.33.0
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e
+        with:
+          msystem: UCRT64
+          update: true
+          install: base-devel
+
+      - name: Install build tools and library packages
+        run: |
+          set -euo pipefail
+          mapfile -t packages < <(sed -e '/^[[:space:]]*#/d' -e '/^[[:space:]]*$/d' scripts/msys2-packages.txt)
+          pacman --noconfirm -S --needed "${packages[@]}"
+
+      - name: Build pinned dependencies and FileZilla
+        run: |
+          set -euo pipefail
+          export FZ_BUILD_ROOT="$(pwd)/.build"
+          export FZ_PREFIX="$FZ_BUILD_ROOT/prefix"
+          mkdir -p "$FZ_BUILD_ROOT/logs"
+          bash scripts/build-windows.sh all 2>&1 | tee "$FZ_BUILD_ROOT/logs/ci-build.log"
+
+      - name: Run upstream test suites
+        run: |
+          set -euo pipefail
+          export FZ_BUILD_ROOT="$(pwd)/.build"
+          export FZ_PREFIX="$FZ_BUILD_ROOT/prefix"
+          bash scripts/build-windows.sh check 2>&1 | tee "$FZ_BUILD_ROOT/logs/ci-upstream-tests.log"
+
+      - name: Run hidden-window dark palette tests
+        run: |
+          set -euo pipefail
+          export FZ_BUILD_ROOT="$(pwd)/.build"
+          export FZ_PREFIX="$FZ_BUILD_ROOT/prefix"
+          bash tests/darkmode/run.sh
+
+      - name: Upload validation logs
+        if: always()
+        # actions/upload-artifact v7.0.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: windows-x64-validation-${{ github.run_id }}
+          path: |
+            .build/logs/ci-*.log
+            .build/test-results/darkmode/results.txt
+            .build/test-results/darkmode/toolchain.txt
+          if-no-files-found: warn
+          # Only the exact log/report paths above are uploaded from .build.
+          include-hidden-files: true
+          retention-days: 14

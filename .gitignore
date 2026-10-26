@@ -1,0 +1,16 @@
+.build/
+.build-darkmode-tests/
+autom4te.cache/
+**/.deps/
+**/.libs/
+**/__pycache__/
+**/config.log
+**/config.status
+*.o
+*.obj
+*.lo
+*.la
+*.pyc
+*~
+.DS_Store
+Thumbs.db

@@ -1,0 +1,42 @@
+{
+  "dependencies": [
+    {
+      "name": "libfilezilla",
+      "version": "0.58.0",
+      "archive": "libfilezilla-0.58.0.tar.xz",
+      "directory": "libfilezilla-0.58.0",
+      "algorithm": "sha512",
+      "digest": "8bcfe47e4c704e0fd4ed66da47e834b031ed4f6dd66a7e4f7991a7e87f3c88f38b822d58de83c0f4f84118b87c9a8ff1ac00913a40fb692718c49ad8063bd83a",
+      "checksum_source": "https://lib.filezilla-project.org/download.php",
+      "urls": [
+        "https://download.filezilla-project.org/libfilezilla/libfilezilla-0.58.0.tar.xz",
+        "https://sources.archlinux.org/other/libfilezilla/libfilezilla-0.58.0.tar.xz"
+      ]
+    },
+    {
+      "name": "fzssh",
+      "version": "1.5.0",
+      "archive": "fzssh-1.5.0.tar.xz",
+      "directory": "fzssh-1.5.0",
+      "algorithm": "sha512",
+      "digest": "2b9e4529029f6cee65c2939205440f2be9ac30c984a5ceeeefdb5e4ef8666d4590a2d658224c79a2ee046af49800a2fd0a3c6725efe2e8d4739d725b8bbdb690",
+      "checksum_source": "https://fzssh.filezilla-project.org/download.php",
+      "urls": [
+        "https://download.filezilla-project.org/fzssh/fzssh-1.5.0.tar.xz",
+        "https://sources.archlinux.org/other/packages/fzssh/fzssh-1.5.0.tar.xz"
+      ]
+    },
+    {
+      "name": "wxWidgets",
+      "version": "3.3.4",
+      "archive": "wxWidgets-3.3.4.tar.bz2",
+      "directory": "wxWidgets-3.3.4",
+      "algorithm": "sha256",
+      "digest": "815c16cafa4fcbfcf25c5c0a3418309c62257b8a3b6f91d85a1367a134f98c98",
+      "checksum_source": "https://github.com/wxWidgets/wxWidgets/releases/tag/v3.3.4",
+      "urls": [
+        "https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.4/wxWidgets-3.3.4.tar.bz2"
+      ]
+    }
+  ]
+}
