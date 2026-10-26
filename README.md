@@ -11,8 +11,6 @@ The [first public preview](https://github.com/k2nt1/filezilla-dark/releases/tag/
 - **[Windows x64 portable program](https://github.com/k2nt1/filezilla-dark/releases/download/v3.71.1-dark.1/FileZilla-Dark-3.71.1-win64.rar)** — extract the entire archive and run `FileZilla-Dark.exe`. The required DLLs, resources, and translations are included; no compiler is needed.
 - **[Corresponding source](https://github.com/k2nt1/filezilla-dark/releases/download/v3.71.1-dark.1/FileZilla-Dark-3.71.1-source.rar)** — this fork's source, build recipes, and matching external-library source archives and notices.
 
-للبرنامج الجاهز للتشغيل حمّل **win64.rar**، وللسورس حمّل **source.rar**. فك ضغط حزمة البرنامج بالكامل قبل تشغيل ملف EXE.
-
 The application is rebuilt against wxWidgets 3.3.4 and uses a shared dark palette for windows, menus, fields, file lists, trees, tabs, the message log, and transfer status controls. This changes FileZilla itself; it does not change the Windows theme or the installed FileZilla client.
 
 ## Features
