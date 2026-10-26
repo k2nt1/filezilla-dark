@@ -83,4 +83,6 @@ See [tests/darkmode/README.md](tests/darkmode/README.md) for the wxWidgets/appli
 
 The scripts add compiler file/debug/macro prefix maps to reduce embedded local source paths. For a public binary, build in a neutral workspace or hosted CI, inspect the finished artifacts for local paths and personal data, and package a fresh empty profile rather than a development profile. Keep private fixture keys, credentials, transfer data, and unrelated screenshots out of release assets.
 
+The maps also cover the native MSYS2 installation prefix, including standard-library assertion locations. After configure, `scripts/normalize-buildinfo.py` replaces that machine-specific prefix only in the generated `USED_CXXFLAGS` display string used by About/build information. The real compiler options stay intact, and assertions, application source, and executable bytes are not patched. Raw build logs and generated configuration files can still contain local paths and should remain private.
+
 Include the exact runtime libraries and their license texts, a version/hash inventory, and access to the corresponding source/build material required by their licenses. The repository's FileZilla source alone does not supply source for all separately linked runtime libraries. Preserve fzssh's documentation and About/legal attribution. See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

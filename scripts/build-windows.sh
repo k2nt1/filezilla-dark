@@ -30,7 +30,13 @@ for fz_pair in "$fz_repo=/src/filezilla-dark" "$fz_build=/build/filezilla-dark";
     fz_map_flags+=" -ffile-prefix-map=$fz_spelling=$fz_to -fdebug-prefix-map=$fz_spelling=$fz_to -fmacro-prefix-map=$fz_spelling=$fz_to"
   done
 done
-export CFLAGS="-O2 -DNDEBUG$fz_map_flags"
+# Map standard-library assertion locations too: the compiler installation can
+# live outside both source and build trees. Keep these actual compiler flags
+# intact. The generated FileZilla build-info display is normalized separately
+# after configure, so its recorded CXXFLAGS cannot expose that native prefix.
+fz_native_toolchain="$(cygpath -m /)"
+fz_inline_native_maps=" -ffile-prefix-map=$fz_native_toolchain=/toolchain/msys64 -fdebug-prefix-map=$fz_native_toolchain=/toolchain/msys64 -fmacro-prefix-map=$fz_native_toolchain=/toolchain/msys64"
+export CFLAGS="-O2 -DNDEBUG$fz_map_flags$fz_inline_native_maps"
 export CXXFLAGS="$CFLAGS"
 
 fz_fetch() {
@@ -101,6 +107,11 @@ fz_app() {
       bash "$fz_repo/configure" --prefix="$fz_prefix" \
       --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 \
       --with-wx-config="$fz_prefix/bin/wx-config" --with-pugixml=builtin
+    # Only the generated About/build-info string is normalized. Compiler flags,
+    # assertion behavior, source files and the executable are not patched.
+    python "$fz_repo/scripts/normalize-buildinfo.py" \
+      --config "$fz_build/build/filezilla/config/config.h" \
+      --toolchain-root "$fz_native_toolchain"
     make -j"$fz_jobs"
     make install
   )

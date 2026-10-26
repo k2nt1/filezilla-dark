@@ -4,6 +4,15 @@ An unofficial FileZilla Client 3.71.1 fork with native-looking Windows dark mode
 
 ![FileZilla Dark on Windows](docs/images/filezilla-dark.png)
 
+## Download
+
+The [first public preview](https://github.com/k2nt1/filezilla-dark/releases/tag/v3.71.1-dark.1) provides two separate RAR archives:
+
+- **[Windows x64 portable program](https://github.com/k2nt1/filezilla-dark/releases/download/v3.71.1-dark.1/FileZilla-Dark-3.71.1-win64.rar)** — extract the entire archive and run `FileZilla-Dark.exe`. The required DLLs, resources, and translations are included; no compiler is needed.
+- **[Corresponding source](https://github.com/k2nt1/filezilla-dark/releases/download/v3.71.1-dark.1/FileZilla-Dark-3.71.1-source.rar)** — this fork's source, build recipes, and matching external-library source archives and notices.
+
+للبرنامج الجاهز للتشغيل حمّل **win64.rar**، وللسورس حمّل **source.rar**. فك ضغط حزمة البرنامج بالكامل قبل تشغيل ملف EXE.
+
 The application is rebuilt against wxWidgets 3.3.4 and uses a shared dark palette for windows, menus, fields, file lists, trees, tabs, the message log, and transfer status controls. This changes FileZilla itself; it does not change the Windows theme or the installed FileZilla client.
 
 ## Features
@@ -18,7 +27,7 @@ The application is rebuilt against wxWidgets 3.3.4 and uses a shared dark palett
 
 See [BUILD.md](BUILD.md) for the MSYS2 UCRT64 build, pinned dependency source hashes, and test commands. The repository contains the modified FileZilla source, including upstream bundled resources and pugixml; external dependency source trees and toolchains are downloaded into a separate build directory.
 
-No prebuilt binary is published in this source repository yet. Build locally using BUILD.md. For a portable build, keep `filezilla.exe`, its DLLs, resources, and locales together in a writable directory.
+The ready-to-run portable archive is available under [Releases](https://github.com/k2nt1/filezilla-dark/releases). To compile your own build, follow BUILD.md. Keep the portable executable, its DLLs, resources, and locales together in a writable directory.
 
 ## Validation and limits
 
